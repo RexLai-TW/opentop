@@ -1,0 +1,56 @@
+# opentop — 設定檔範例
+# 複製為 config.yml 並填入 API key
+
+github_trending:
+  base_url: https://github.com/trending
+  top_n: 15
+  since_options:
+    - daily
+    - weekly
+    - monthly
+  spoken_languages: []    # 例: ["python", "typescript"]; 留空 = 不限
+  request_timeout_sec: 30
+  user_agent: "opentop-bot/1.0 (+https://github.com/)"
+
+llm:
+  # === Provider 設定 ===
+  # openai              - OpenAI 官方 (gpt-4o-mini 等)
+  # openai_compatible   - 任何 OpenAI Chat Completions 相容端點 (OpenCode Zen、Ollama、llama.cpp、OpenRouter、vLLM)
+  # mock                - 不打 API, 用樣板回傳 (CI / 離線測試)
+  provider: openai_compatible
+  api_key_env: OPENCODE_ZEN_API_KEY
+  base_url: https://opencode.ai/zen/v1
+  # OpenCode Zen 推薦模型 (中文摘要):
+  #   big-pickle          免費, 品質中等
+  #   qwen3.5-plus        $0.20/$1.20 per 1M, 中文最強
+  #   deepseek-v4-flash   $0.14/$0.28, 速度快
+  #   claude-sonnet-4-5   $3.00/$15.00, 品質頂級
+  #   glm-5               $1.00/$3.20, 中文原生
+  #   gemini-3-flash      $0.50/$3.00, 平衡
+  model: deepseek-v4-flash-free
+  max_output_tokens: 800
+  temperature: 0.2
+  timeout_sec: 60
+  # 改成 OpenAI 官方的話:
+  # provider: openai
+  # api_key_env: OPENAI_API_KEY
+  # base_url: https://api.openai.com/v1
+  # model: gpt-4o-mini
+  # 改成本地 Ollama:
+  # provider: openai_compatible
+  # api_key_env: OLLAMA_API_KEY
+  # base_url: http://127.0.0.1:11434/v1
+  # model: qwen2.5:7b
+storage:
+  sqlite_path: data/opentop.db
+  retention:
+    daily_keep_days: 30
+    weekly_keep_weeks: 12
+    monthly_keep_months: 12
+
+site:
+  output_dir: docs
+  site_title: "GitHub 趨勢中文速覽"
+  site_subtitle: "每日自動抓取、LLM 摘要、靜態部署"
+  base_url: ""           # 例: https://<user>.github.io/opentop ; 留空 = 相對路徑
+  items_per_page: 15

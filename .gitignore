@@ -1,0 +1,21 @@
+# venv / build
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# config & secrets
+config.yml
+*.env
+
+# runtime data
+data/*.db
+data/*.db-journal
+logs/*.log
+
+# tests
+.pytest_cache/
+.coverage
+
+# OS
+.DS_Store
